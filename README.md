@@ -14,8 +14,8 @@ Repositorio base para la Tarea 2. El proyecto fue preparado para comenzar el tra
 
 | Integrante | Usuario de GitHub | Desafío asignado |
 | --- | --- | --- |
-| Sanhueza | Por completar | Por definir |
-| Torres | Por completar | Por definir |
+| Sanhueza | `BarbaraSanhueza` | Desafíos 1 y 4 |
+| Torres | `DtorresUfro` | Desafíos 2 y 3 |
 
 ## Ramas iniciales
 
