@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    image: tarea2-sanhueza-torres:local
+    environment:
+      APP_PORT: "${APP_PORT:-3001}"
+      APP_ENV: production
+      CSV_PATH: /data/compras.csv
+    ports:
+      - "${APP_PORT:-3001}:${APP_PORT:-3001}"
+    volumes:
+      - type: bind
+        source: "${CSV_PATH:-./compras.csv}"
+        target: /data/compras.csv
+        read_only: true
+        bind:
+          create_host_path: false
