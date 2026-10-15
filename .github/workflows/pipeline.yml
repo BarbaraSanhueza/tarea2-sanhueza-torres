@@ -1,0 +1,56 @@
+name: Pipeline Tarea 2
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - pipeline
+      - develop
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B package -DskipTests
+      - run: docker build -t tarea2:local .
+  publish:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Publicar imagen en GHCR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USER: ${{ github.actor }}
+        run: |
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$GH_USER" --password-stdin
+          IMAGE=ghcr.io/barbarasanhueza/tarea2-sanhueza-torres
+          SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+          docker build -t "$IMAGE:latest" -t "$IMAGE:$SHA" .
+          docker push "$IMAGE:latest"
+          docker push "$IMAGE:$SHA"
