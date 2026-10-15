@@ -23,7 +23,3 @@ Repositorio base para la Tarea 2. El proyecto fue preparado para comenzar el tra
 - `develop`
 - `docker`
 - `pipeline`
-
-## Estado del repositorio
-
-Solo contiene la estructura base de Spring Boot y el archivo `compras.csv` en la raíz. No se han implementado endpoints, lógica de negocio, configuración de Docker ni workflows de integración continua.
